@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="UzC-hm-Fdx">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="FairTask" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LOGO" translatesAutoresizingMaskIntoConstraints="NO" id="LjK-jS-PrC">
+                                <rect key="frame" x="0.0" y="103" width="393" height="247"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="247" id="JwG-Q9-aDR"/>
+                                    <constraint firstAttribute="width" constant="393" id="VAE-ZV-RCq"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CQQ-Ak-hfF">
+                                <rect key="frame" x="120.33333333333333" y="521.66666666666663" width="152.33333333333337" height="34.666666666666629"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34.670000000000002" id="Dgx-5s-FLj"/>
+                                </constraints>
+                                <color key="tintColor" red="0.68235301969999995" green="0.86274516580000005" blue="0.87843137979999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Go to the project"/>
+                                <connections>
+                                    <segue destination="MtK-A6-q0K" kind="show" identifier="goToExistingProject" id="sRu-EU-md1"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select from existing projects" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vuW-50-Ehd">
+                                <rect key="frame" x="93" y="407.66666666666669" width="207" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="206.66999999999999" id="bM9-3p-arf"/>
+                                    <constraint firstAttribute="height" constant="35" id="gJj-hC-tVR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No existing project?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dXI-lQ-5bd">
+                                <rect key="frame" x="124.66666666666669" y="621" width="144" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="T3p-Fd-ifa"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="91M-4A-uhq">
+                                <rect key="frame" x="132.66666666666666" y="457.66666666666669" width="127.66666666666666" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="91M-4A-uhq" secondAttribute="height" multiplier="15:4" id="56j-Ou-T9A"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="34" id="q0E-9h-8FE"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="xa9-CX-gh0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <menu key="menu" id="6qd-Iu-2TS">
+                                    <children>
+                                        <command title="Item 1" id="WMk-fy-jdM"/>
+                                        <command title="Item 2" id="K0O-Ge-tT7"/>
+                                    </children>
+                                </menu>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" red="0.68235301969999995" green="0.86274516580000005" blue="0.87843137979999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <buttonConfiguration key="configuration" style="plain" title="Button">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
+                                    <color key="baseForegroundColor" red="0.68235301969999995" green="0.86274516580000005" blue="0.87843137979999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </buttonConfiguration>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ak-tq-xzz">
+                                <rect key="frame" x="96.666666666666686" y="691" width="200" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="2sS-Ei-sEl"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="34" id="Fve-2F-kjG"/>
+                                </constraints>
+                                <color key="tintColor" red="0.68235301969999995" green="0.86274516580000005" blue="0.87843137979999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Create new project"/>
+                                <connections>
+                                    <segue destination="nMv-E4-Y7H" kind="show" id="hI4-NT-HiR"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="0Ak-tq-xzz" firstAttribute="top" secondItem="dXI-lQ-5bd" secondAttribute="bottom" constant="50" id="2DF-UB-RVV"/>
+                            <constraint firstItem="LjK-jS-PrC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4Nd-pg-kuj"/>
+                            <constraint firstItem="dXI-lQ-5bd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="5Wk-nQ-oDe"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="LjK-jS-PrC" secondAttribute="bottom" constant="468" id="Bsp-E0-tjo"/>
+                            <constraint firstItem="0Ak-tq-xzz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="KUU-3Y-jVO"/>
+                            <constraint firstItem="dXI-lQ-5bd" firstAttribute="top" secondItem="CQQ-Ak-hfF" secondAttribute="bottom" constant="64.670000000000002" id="MUX-27-4ol"/>
+                            <constraint firstItem="CQQ-Ak-hfF" firstAttribute="top" secondItem="91M-4A-uhq" secondAttribute="bottom" constant="30" id="RgW-oM-CtQ"/>
+                            <constraint firstItem="91M-4A-uhq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="T6R-dj-UHa"/>
+                            <constraint firstItem="91M-4A-uhq" firstAttribute="top" secondItem="vuW-50-Ehd" secondAttribute="bottom" constant="15" id="Z7b-Oi-Bxx"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="0Ak-tq-xzz" secondAttribute="bottom" constant="93" id="p0o-1t-FfC"/>
+                            <constraint firstItem="CQQ-Ak-hfF" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vEC-yp-0BI"/>
+                            <constraint firstItem="vuW-50-Ehd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="xYE-xc-2pq"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="ooz-GH-v0X"/>
+                    <connections>
+                        <outlet property="projectSelectionButton" destination="91M-4A-uhq" id="WFV-hN-ZvF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="980.91603053435108" y="-34.507042253521128"/>
+        </scene>
+        <!--Existing Project-->
+        <scene sceneID="YOF-R0-10a">
+            <objects>
+                <viewController storyboardIdentifier="ExistingProjectController" id="MtK-A6-q0K" customClass="ExistingProjectController" customModule="FairTask" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Lnm-kX-tzU" customClass="Existing">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="LaZ-uJ-8YZ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Existing Project" id="bnu-K5-4rP"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eu5-YR-Gn4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2199.2366412213742" y="-337.32394366197184"/>
+        </scene>
+        <!--Result Controller-->
+        <scene sceneID="Uo1-Ec-mJy">
+            <objects>
+                <viewController storyboardIdentifier="ResultController" id="VGp-Pv-Ohi" customClass="ResultController" customModule="FairTask" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sNq-ON-6sy">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="xe2-dS-nzE"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qdD-3M-4sa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3440.4580152671756" y="-185.21126760563382"/>
+        </scene>
+        <!--New Project-->
+        <scene sceneID="3CA-hy-NFB">
+            <objects>
+                <viewController storyboardIdentifier="NewProjectController" id="nMv-E4-Y7H" customClass="NewProjectController" customModule="FairTask" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" restorationIdentifier="NewProjectController" id="fbM-Cr-YjS">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="pKy-Ft-uH3"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="New Project" id="vxX-FA-LmN"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CfZ-N1-KKQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2199" y="380"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="JZO-Jj-1vC">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UzC-hm-Fdx" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7yH-hD-QQI">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="4VC-rU-Aet"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TqN-0s-SRf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="54.198473282442748" y="-34.507042253521128"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="LOGO" width="668" height="314"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

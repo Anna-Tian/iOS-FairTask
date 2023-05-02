@@ -1,13 +1,14 @@
 //
-//  ViewController.swift
+//  ResultController.swift
 //  FairTask
 //
-//  Created by Na Tian on 25/4/2023.
+//  Created by xin weng on 30/4/2023.
 //
 
+import Foundation
 import UIKit
 
-class ViewController: UIViewController {
+class ResultController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,4 +17,3 @@ class ViewController: UIViewController {
 
 
 }
-
