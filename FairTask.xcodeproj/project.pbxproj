@@ -13,6 +13,9 @@
 		955CAA5329F7BF9100DFAAB3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 955CAA5129F7BF9100DFAAB3 /* Main.storyboard */; };
 		955CAA5529F7BF9200DFAAB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 955CAA5429F7BF9200DFAAB3 /* Assets.xcassets */; };
 		955CAA5829F7BF9200DFAAB3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 955CAA5629F7BF9200DFAAB3 /* LaunchScreen.storyboard */; };
+		95E90C982A014E8E00839648 /* AddMemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E90C962A014E8E00839648 /* AddMemberTableViewCell.swift */; };
+		95E90C992A014E8E00839648 /* AddMemberTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95E90C972A014E8E00839648 /* AddMemberTableViewCell.xib */; };
+		95E90C9C2A01572E00839648 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E90C9B2A01572E00839648 /* Model.swift */; };
 		F28F75D829FEA3BA00E77307 /* ExistingProjectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28F75D729FEA3B900E77307 /* ExistingProjectController.swift */; };
 		F28F75DA29FEA3CA00E77307 /* NewProjectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28F75D929FEA3CA00E77307 /* NewProjectController.swift */; };
 		F28F75DC29FEA3F600E77307 /* ResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28F75DB29FEA3F600E77307 /* ResultController.swift */; };
@@ -27,6 +30,9 @@
 		955CAA5429F7BF9200DFAAB3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		955CAA5729F7BF9200DFAAB3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		955CAA5929F7BF9200DFAAB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		95E90C962A014E8E00839648 /* AddMemberTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberTableViewCell.swift; sourceTree = "<group>"; };
+		95E90C972A014E8E00839648 /* AddMemberTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddMemberTableViewCell.xib; sourceTree = "<group>"; };
+		95E90C9B2A01572E00839648 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		F28F75D729FEA3B900E77307 /* ExistingProjectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExistingProjectController.swift; path = FairTask/ExistingProjectController.swift; sourceTree = SOURCE_ROOT; };
 		F28F75D929FEA3CA00E77307 /* NewProjectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectController.swift; sourceTree = "<group>"; };
 		F28F75DB29FEA3F600E77307 /* ResultController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultController.swift; sourceTree = "<group>"; };
@@ -62,6 +68,7 @@
 		955CAA4A29F7BF9100DFAAB3 /* FairTask */ = {
 			isa = PBXGroup;
 			children = (
+				95E90C9A2A01572100839648 /* Model */,
 				F28F75D529FEA31C00E77307 /* View */,
 				F28F75D429FEA2FE00E77307 /* Control */,
 				955CAA4B29F7BF9100DFAAB3 /* AppDelegate.swift */,
@@ -71,6 +78,14 @@
 				955CAA5929F7BF9200DFAAB3 /* Info.plist */,
 			);
 			path = FairTask;
+			sourceTree = "<group>";
+		};
+		95E90C9A2A01572100839648 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				95E90C9B2A01572E00839648 /* Model.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		F28F75D429FEA2FE00E77307 /* Control */ = {
@@ -88,6 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				955CAA5129F7BF9100DFAAB3 /* Main.storyboard */,
+				95E90C962A014E8E00839648 /* AddMemberTableViewCell.swift */,
+				95E90C972A014E8E00839648 /* AddMemberTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -153,6 +170,7 @@
 				955CAA5829F7BF9200DFAAB3 /* LaunchScreen.storyboard in Resources */,
 				955CAA5529F7BF9200DFAAB3 /* Assets.xcassets in Resources */,
 				955CAA5329F7BF9100DFAAB3 /* Main.storyboard in Resources */,
+				95E90C992A014E8E00839648 /* AddMemberTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,9 +184,11 @@
 				F28F75D829FEA3BA00E77307 /* ExistingProjectController.swift in Sources */,
 				F28F75DA29FEA3CA00E77307 /* NewProjectController.swift in Sources */,
 				F28F75DC29FEA3F600E77307 /* ResultController.swift in Sources */,
+				95E90C982A014E8E00839648 /* AddMemberTableViewCell.swift in Sources */,
 				955CAA5029F7BF9100DFAAB3 /* ViewController.swift in Sources */,
 				955CAA4C29F7BF9100DFAAB3 /* AppDelegate.swift in Sources */,
 				955CAA4E29F7BF9100DFAAB3 /* SceneDelegate.swift in Sources */,
+				95E90C9C2A01572E00839648 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
