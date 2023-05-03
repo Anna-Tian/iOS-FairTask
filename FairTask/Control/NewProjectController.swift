@@ -27,7 +27,44 @@ class NewProjectController: UIViewController, UITableViewDataSource, UITableView
         taskTable.dataSource = self
         taskTable.delegate = self
     }
-
+    
+    @IBAction func addMember(_ sender: Any) {
+        showAlertController(
+            title: "Add Member",
+            placeholders: ["Enter member name*"],
+            initialValues: [""],
+            requiredFields: [0],
+            viewController: self,
+            keyboardType: [.default]
+        ) {(values) in
+            // if value is not empty, append member name to selectedProject
+            if !values[0].isEmpty {
+                self.selectedProject.members.append(values[0])
+                self.saveUpdatedProject()
+                self.memberTable.reloadData()
+            }
+        }
+    }
+    
+    @IBAction func addTask(_ sender: Any) {
+        showAlertController(
+            title: "Edit Task",
+            placeholders: ["Enter task name*", "Enter task weight"],
+            initialValues: ["", ""],
+            requiredFields: [0],
+            viewController: self,
+            keyboardType: [.default, .numberPad]
+        ) {(values) in
+            // if value is not empty, append task name and task weight to selectedProject
+            if !values[0].isEmpty {
+                let newTask = Task(taskName: values[0], taskWeight: Int(values[1]))
+                self.selectedProject.tasks.append(newTask)
+                self.saveUpdatedProject()
+                self.taskTable.reloadData()
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var numberOfRow = 1
         switch tableView {
