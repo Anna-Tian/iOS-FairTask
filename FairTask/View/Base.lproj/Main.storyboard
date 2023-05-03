@@ -262,6 +262,7 @@
                     <connections>
                         <outlet property="memberTable" destination="ITl-gG-Hel" id="NyH-PX-8Of"/>
                         <outlet property="taskTable" destination="cQQ-Ui-V9V" id="Fe3-pa-dxt"/>
+                        <outlet property="totalMemberLabel" destination="shn-8j-Dha" id="zbA-Bz-1T5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CfZ-N1-KKQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
