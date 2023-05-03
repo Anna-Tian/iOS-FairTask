@@ -11,6 +11,7 @@ import UIKit
 class NewProjectController: UIViewController, UITableViewDataSource, UITableViewDelegate, AddMemberDelegate {
 
     @IBOutlet weak var memberTable: UITableView!
+    @IBOutlet weak var taskTable: UITableView!
     
     var selectedProject: Project = Project(projectName: "", members: [], tasks: [])
 
@@ -20,27 +21,47 @@ class NewProjectController: UIViewController, UITableViewDataSource, UITableView
         memberTable.register(AddMemberTableViewCell.nib(), forCellReuseIdentifier: AddMemberTableViewCell.identifier)
         memberTable.dataSource = self
         memberTable.delegate = self
+        
+        taskTable.dataSource = self
+        taskTable.delegate = self
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if selectedProject.members.isEmpty {
-            return 1 // only display the "Add Member" cell
-        } else {
-            return selectedProject.members.count + 1 // display member cells and the "Add Member" cell
+        var numberOfRow = 1
+        switch tableView {
+        case memberTable:
+            // display the "Add member" cell if no members in the list, else display members and "Add member" cell
+            numberOfRow = selectedProject.members.isEmpty ? 1 : selectedProject.members.count + 1
+        case taskTable:
+            numberOfRow = selectedProject.tasks.count
+        default:
+            print("Some things wrong...")
         }
+        return numberOfRow
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row >= selectedProject.members.count {
-            // Display add cell
-            let addCell = tableView.dequeueReusableCell(withIdentifier: "AddMemberTableViewCell", for: indexPath) as! AddMemberTableViewCell
-            addCell.delegate = self // set the delegate to the view controller
-            return addCell
-        } else {
-            // Display member cell
-            let listMemberCell = tableView.dequeueReusableCell(withIdentifier: "memberCell", for: indexPath)
-            listMemberCell.textLabel?.text = selectedProject.members[indexPath.row]
-            return listMemberCell
+        var cell = UITableViewCell()
+        switch tableView {
+        case memberTable:
+            if indexPath.row >= selectedProject.members.count {
+                // Display add cell
+                let addCell = tableView.dequeueReusableCell(withIdentifier: "AddMemberTableViewCell", for: indexPath) as! AddMemberTableViewCell
+                addCell.delegate = self // set the delegate to the view controller
+                cell = addCell
+            } else {
+                // Display member cell
+                let listMemberCell = tableView.dequeueReusableCell(withIdentifier: "memberCell", for: indexPath)
+                listMemberCell.textLabel?.text = selectedProject.members[indexPath.row]
+                cell = listMemberCell
+            }
+        case taskTable:
+            let listMemberCell = tableView.dequeueReusableCell(withIdentifier: "taskCell", for: indexPath)
+            listMemberCell.textLabel?.text = selectedProject.tasks[indexPath.row].taskName
+            cell = listMemberCell
+        default:
+            break
         }
+        return cell
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
@@ -48,9 +69,16 @@ class NewProjectController: UIViewController, UITableViewDataSource, UITableView
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            selectedProject.members.remove(at: indexPath.row)
+            switch tableView {
+            case memberTable:
+                selectedProject.members.remove(at: indexPath.row)
+            case taskTable:
+                selectedProject.tasks.remove(at: indexPath.row)
+            default:
+                break
+            }
             saveUpdatedProject()
-            memberTable.reloadData()
+            tableView.reloadData()
         }
     }
     

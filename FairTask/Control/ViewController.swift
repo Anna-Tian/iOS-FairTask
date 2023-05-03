@@ -46,8 +46,8 @@ class ViewController: UIViewController {
         let vc = storyboard?.instantiateViewController(identifier: "NewProjectController") as! NewProjectController
         if let data = UserDefaults.standard.data(forKey: PROJECT_KEY),
            let projects = try? JSONDecoder().decode([Project].self, from: data) {
-//            vc.selectedProject = projects[0]
-            vc.selectedProject = Project(projectName: "", members: [], tasks: [])
+            vc.selectedProject = projects[0]
+//            vc.selectedProject = Project(projectName: "", members: [], tasks: [])
         } else {
             // Handle the case where there is no data or decoding fails
         }
