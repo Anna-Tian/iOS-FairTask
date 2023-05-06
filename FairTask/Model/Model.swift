@@ -10,18 +10,24 @@ import UIKit
 
 let PROJECT_KEY = "project"
 
-struct Task: Codable {
+struct Task: Codable, Hashable {
     var taskName: String
     var taskWeight: Int?
 }
 
-struct Project: Codable {
+struct Project: Codable, Hashable {
     var projectName: String
     var members: [String]
     var tasks: [Task]
 }
 
-func showAlertController(title: String?, placeholders: [String], initialValues: [String?], requiredFields: Set<Int>, viewController: UIViewController, keyboardType: [UIKeyboardType], saveHandler: (([String]) -> Void)?) {
+struct TaskDistribution: Codable, Hashable {
+    var memberName: String
+    var taskName: String
+    var assignedTaskWeight: Int
+}
+
+func showPopUpWindow(title: String?, placeholders: [String], initialValues: [String?], requiredFields: Set<Int>, viewController: UIViewController, keyboardType: [UIKeyboardType], saveHandler: (([String]) -> Void)?) {
     let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
     
     for (index, placeholder) in placeholders.enumerated() {
@@ -50,5 +56,11 @@ func showAlertController(title: String?, placeholders: [String], initialValues: 
         saveHandler?(values)
     }))
     
+    viewController.present(alertController, animated: true, completion: nil)
+}
+
+func showAlert(title: String, message: String, viewController: UIViewController) {
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
     viewController.present(alertController, animated: true, completion: nil)
 }
