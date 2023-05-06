@@ -21,6 +21,11 @@ struct Project: Codable, Hashable {
     var tasks: [Task]
 }
 
+// Define the Project dictionary
+struct ProjectDict: Codable {
+    var projects: [Project]
+}
+
 struct TaskDistribution: Codable, Hashable {
     var memberName: String
     var taskName: String

@@ -9,49 +9,88 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var projectSelectionButton: UIButton!
+    @IBOutlet weak var goToSelectedProjectButton: UIButton!
+    
+    var selectedProject: Project = Project(projectName: "", members: [], tasks: [])
+    var selectedProjectIndex: Int = 0
+    var projects: [Project] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-        setProjectSelectionButton()
         // Do any additional setup after loading the view.
         
-        
-        if UserDefaults.standard.dictionary(forKey: PROJECT_KEY) == nil {
-            let project: [Project] = [
-                Project(projectName: "Project 1", members: ["Amy", "Iris"], tasks: [Task(taskName: "Project 1 Assignment 1", taskWeight: 20), Task(taskName: "Project 1 Assignment 2", taskWeight: 80)]),
-                Project(projectName: "Project 2", members: ["Luna", "Clara", "Mia"], tasks: [Task(taskName: "Project 2 Assignment 1", taskWeight: nil)])
-            ]
-            // Encode the projectData array as JSON data
-            let encoder = JSONEncoder()
-            if let encoded = try? encoder.encode(project) {
-                // Save the encoded data to UserDefaults
-                UserDefaults.standard.set(encoded, forKey: PROJECT_KEY)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+        // Reload data or update the view here
+        if let projectDictData = UserDefaults.standard.data(forKey: PROJECT_KEY),
+           let decodedProjectDict = try? JSONDecoder().decode(ProjectDict.self, from: projectDictData) {
+            projects = decodedProjectDict.projects
+            if projects.count != 0 {
+                selectedProject = projects[0] // used for default select menu
+                setProjectSelectionButton(projects: projects)
             }
+            
+            /**
+             To-Dos:
+             1. change isEnabled to .isHidden in here:
+                 1. select from existing projects label
+                 2. project selection button
+                 3. go to selected project button
+                 4. no existing project label
+             2. the constraints between no existing project labe and create new project button is too much? maybe change it to about 20 or 30?
+             */
+            projectSelectionButton.isEnabled = projects.count != 0 ? true : false
+            goToSelectedProjectButton.isEnabled = projects.count != 0 ? true : false
         }
     }
-    func setProjectSelectionButton(){
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    func setProjectSelectionButton(projects: [Project]){
+        var children: [UIAction] = []
         
-        let optionClosure = {(action : UIAction) in
-            print(action.title)}
+        for project in projects {
+            let state: UIMenuElement.State = project.projectName == selectedProject.projectName ? .on : .off
+            let projectAction = UIAction(title: project.projectName, state: state, handler: { [weak self] (action) in
+                self?.selectedProject = project
+            })
+            children.append(projectAction)
+        }
         
-        projectSelectionButton.menu = UIMenu (children : [
-            UIAction(title : "Project 1", state : .on, handler: optionClosure),
-            UIAction(title : "Project 2", handler: optionClosure),
-            UIAction(title : "Project 3", handler: optionClosure)])
+        if let index = projects.firstIndex(where: { $0.projectName == selectedProject.projectName }) {
+            selectedProjectIndex = index
+        }
         
+        projectSelectionButton.menu = UIMenu(children: children)
         projectSelectionButton.showsMenuAsPrimaryAction = true
         projectSelectionButton.changesSelectionAsPrimaryAction = true
     }
     
-    @IBAction func createNewProject(_ sender: Any) {
-        let vc = storyboard?.instantiateViewController(identifier: "ProjectViewController") as! ProjectViewController
-        if let data = UserDefaults.standard.data(forKey: PROJECT_KEY),
-           let projects = try? JSONDecoder().decode([Project].self, from: data) {
-//            vc.selectedProject = projects[0]
-            vc.selectedProject = Project(projectName: "", members: [], tasks: [])
-        } else {
-            // Handle the case where there is no data or decoding fails
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? ProjectViewController {
+            vc.selectedProject = selectedProject
+            vc.selectedProjectIndex = selectedProjectIndex
+            vc.projectDict = ProjectDict(projects: projects)
         }
-        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        switch identifier {
+        case "newProjectSegue":
+            selectedProjectIndex = projects.count
+            selectedProject = Project(projectName: "", members: [], tasks: [])
+        case "selectedProjectSegue":
+            return true
+        default:
+            print("Cannot find identifier")
+            return false
+        }
+        return true
     }
 }
 

@@ -9,6 +9,7 @@ import UIKit
 
 class ProjectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var projectNameLabel: UILabel!
+    @IBOutlet weak var deleteButton: UIBarButtonItem!
     @IBOutlet weak var memberTable: UITableView!
     @IBOutlet weak var taskTable: UITableView!
     @IBOutlet weak var totalMemberLabel: UILabel!
@@ -18,6 +19,8 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var taskHeightConstant: NSLayoutConstraint!
     
     var selectedProject: Project = Project(projectName: "", members: [], tasks: [])
+    var selectedProjectIndex: Int = 0
+    var projectDict = ProjectDict(projects: [])
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +29,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         projectNameLabel.text = selectedProject.projectName.isEmpty ? "Unnamed Project" : selectedProject.projectName
         totalMemberLabel.text = "Total: \(selectedProject.members.count)"
         randomiseButton.isEnabled = selectedProject.members.count == 0 ? false : true
+        deleteButton.isEnabled = selectedProjectIndex < projectDict.projects.count ? true : false
         
         memberHeightConstant.constant = CGFloat(Double(selectedProject.members.count) * 45)
         taskHeightConstant.constant = CGFloat(Double(selectedProject.tasks.count) * 45)
@@ -33,10 +37,11 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @IBAction func editProjectName(_ sender: Any) {
+        let projectName = self.selectedProject.projectName
         showPopUpWindow(
             title: "Change Project Name",
             placeholders: ["Project Name"],
-            initialValues: [self.selectedProject.projectName],
+            initialValues: [projectName.isEmpty || projectName == "Unnamed Project" ? "" : projectName],
             requiredFields: [],
             viewController: self,
             keyboardType: [.default]
@@ -109,7 +114,8 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
             // Display task cell
             let listTaskCell = tableView.dequeueReusableCell(withIdentifier: "taskCell", for: indexPath)
             let taskWeight = selectedProject.tasks[indexPath.row].taskWeight != nil ? "\(selectedProject.tasks[indexPath.row].taskWeight!)" : ""
-            listTaskCell.textLabel?.text = selectedProject.tasks[indexPath.row].taskName + " - " + taskWeight + "%"
+            listTaskCell.textLabel?.text = selectedProject.tasks[indexPath.row].taskName
+            listTaskCell.detailTextLabel?.text = taskWeight
             cell = listTaskCell
         default:
             break
@@ -268,8 +274,6 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         
         // iterate unitl all tasks are assigned
         while !remainingTasks.isEmpty {
-            let task = remainingTasks[taskIndex]
-            
             // assigns the current task to each member of the project in turn
             for member in project.members {
                 let taskDistribution = TaskDistribution(memberName: member, taskName: remainingTasks[taskIndex].taskName, assignedTaskWeight: 0)
@@ -348,15 +352,50 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func saveUpdatedProject() {
         // Encode the updated project data as JSON
+        selectedProject.projectName = selectedProject.projectName.isEmpty ? "Unnamed Project" : selectedProject.projectName
+        if (selectedProjectIndex < projectDict.projects.count) {
+            projectDict.projects[selectedProjectIndex] = selectedProject
+        } else {
+            projectDict.projects.append(selectedProject)
+        }
         let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode([selectedProject]) {
+        if let encoded = try? encoder.encode(projectDict) {
             // Save the encoded data to UserDefaults
             UserDefaults.standard.set(encoded, forKey: PROJECT_KEY)
         }
+        
+        deleteButton.isEnabled = true
         totalMemberLabel.text = "Total: \(selectedProject.members.count)"
         randomiseButton.isEnabled = selectedProject.members.count == 0 ? false : true
         
         memberHeightConstant.constant = CGFloat(Double(selectedProject.members.count) * 45)
         taskHeightConstant.constant = CGFloat(Double(selectedProject.tasks.count) * 45)
+        
+        // Print the encoded data and the selected project
+        if let projectDictData = UserDefaults.standard.data(forKey: PROJECT_KEY),
+           let decodedProjectDict = try? JSONDecoder().decode(ProjectDict.self, from: projectDictData) {
+            let projectStrings = decodedProjectDict.projects.map { project in
+                "\(project.projectName) - \(project.members)"
+            }
+            print(projectStrings)
+        }
     }
+    
+    @IBAction func deleteButton(_ sender: Any) {
+        let alertController = UIAlertController(title: "Are you sure?", message: "", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: {(action) in
+            self.projectDict.projects.remove(at: self.selectedProjectIndex)
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(self.projectDict) {
+                // Save the encoded data to UserDefaults
+                UserDefaults.standard.set(encoded, forKey: PROJECT_KEY)
+            }
+            let vc = self.storyboard?.instantiateViewController(identifier: "ViewController") as! ViewController
+            self.navigationController?.pushViewController(vc, animated: true)
+        }))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    
 }
