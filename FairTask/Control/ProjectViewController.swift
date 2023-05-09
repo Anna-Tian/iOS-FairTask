@@ -234,11 +234,13 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         // Check if selected project has tasks, if no tasks, randomise the order of members
         if selectedProject.tasks.isEmpty {
             let shuffledMembers = selectedProject.members.shuffled()
-            
-            // TO-DOs: pass data to result ViewController
-            showAlert(title: "Successful", message: "Random order of members: \(shuffledMembers)", viewController: self)
+            performSegue(withIdentifier: "goToResult", sender: shuffledMembers)
             return
         }
+//            // TO-DOs: pass data to result ViewController
+//            showAlert(title: "Successful", message: "Random order of members: \(shuffledMembers)", viewController: self)
+//            return
+//        }
         
         // Check task weight with different condition
         let tasksWithWeight = selectedProject.tasks.filter { $0.taskWeight != nil }
@@ -247,7 +249,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
             showAlert(title: "Failed", message: "Each member should assign one task", viewController: self)
             return
         } else if !tasksWithWeight.isEmpty && tasksWithWeight.count != selectedProject.tasks.count {
-            showAlert(title: "Failed", message: "Either leave all th weight field blank or fill all the weight field", viewController: self)
+            showAlert(title: "Failed", message: "Either leave all the weight field blank or fill all the weight field", viewController: self)
             return
         } else if totalWeight != 100 && totalWeight != 0 {
             showAlert(title: "Failed", message: "Weight should be 0 or 100", viewController: self)
@@ -260,13 +262,17 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         assignTasksToMembers(project: selectedProject)
         
         
-        // TO-DOs: pass data to result ViewController
-        let taskDistributionStrings = taskDistributions.map { distribution in
-            "\(distribution.memberName) - \(distribution.taskName)(\(distribution.assignedTaskWeight))"
-        }
-        showAlert(title: "Successful", message: "Task Distributions: \(taskDistributionStrings)", viewController: self)
+//        // TO-DOs: pass data to result ViewController
+//        let taskDistributionStrings = taskDistributions.map { distribution in
+//            "\(distribution.memberName) - \(distribution.taskName)(\(distribution.assignedTaskWeight))"
+//        }
+//        showAlert(title: "Successful", message: "Task Distributions: \(taskDistributionStrings)", viewController: self)
+        
+        // Perform the segue to ResultViewController
+            performSegue(withIdentifier: "goToResult", sender: taskDistributions)
     }
     
+        
     func assignTasksToMembersWithoutWeight(project: Project) -> [TaskDistribution] {
         var taskDistributions: [TaskDistribution] = []
         var taskIndex = 0
@@ -350,6 +356,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         return taskDistributions
     }
     
+    
     func saveUpdatedProject() {
         // Encode the updated project data as JSON
         selectedProject.projectName = selectedProject.projectName.isEmpty ? "Unnamed Project" : selectedProject.projectName
@@ -378,6 +385,16 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
                 "\(project.projectName) - \(project.members)"
             }
             print(projectStrings)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? ResultController {
+            if let taskDistributions = sender as? [TaskDistribution], segue.identifier == "goToResult" {
+                vc.taskDistributions = taskDistributions
+            } else if let shuffledMembers = sender as? [String], segue.identifier == "goToResult" {
+                vc.shuffledMembers = shuffledMembers
+            }
         }
     }
     
