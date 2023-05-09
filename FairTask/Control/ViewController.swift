@@ -27,10 +27,7 @@ class ViewController: UIViewController {
         if let projectDictData = UserDefaults.standard.data(forKey: PROJECT_KEY),
            let decodedProjectDict = try? JSONDecoder().decode(ProjectDict.self, from: projectDictData) {
             projects = decodedProjectDict.projects
-            if projects.count != 0 {
-                selectedProject = projects[0] // used for default select menu
-                setProjectSelectionButton(projects: projects)
-            }
+            setProjectSelectionButton(projects: projects)
             
             /**
              To-Dos:
@@ -53,17 +50,21 @@ class ViewController: UIViewController {
     
     func setProjectSelectionButton(projects: [Project]){
         var children: [UIAction] = []
-        
+        var hasSelectedProject = false
         for project in projects {
             let state: UIMenuElement.State = project.projectName == selectedProject.projectName ? .on : .off
+            print("State: \(state)")
             let projectAction = UIAction(title: project.projectName, state: state, handler: { [weak self] (action) in
                 self?.selectedProject = project
+                self?.selectedProjectIndex = projects.firstIndex(where: { $0.projectName == project.projectName })!
+                hasSelectedProject = true
             })
             children.append(projectAction)
         }
         
-        if let index = projects.firstIndex(where: { $0.projectName == selectedProject.projectName }) {
-            selectedProjectIndex = index
+        if !hasSelectedProject {
+            selectedProject = projects.first!
+            selectedProjectIndex = 0
         }
         
         projectSelectionButton.menu = UIMenu(children: children)
