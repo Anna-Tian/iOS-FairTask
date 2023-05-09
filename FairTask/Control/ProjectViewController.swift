@@ -269,7 +269,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
 //        showAlert(title: "Successful", message: "Task Distributions: \(taskDistributionStrings)", viewController: self)
         
         // Perform the segue to ResultViewController
-            performSegue(withIdentifier: "goToResult", sender: taskDistributions)
+        performSegue(withIdentifier: "goToResult", sender: taskDistributions)
     }
     
         

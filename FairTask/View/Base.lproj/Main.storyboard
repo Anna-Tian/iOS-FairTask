@@ -163,6 +163,10 @@
                                                 </tableViewCellContentView>
                                             </tableViewCell>
                                         </prototypes>
+                                        <connections>
+                                            <outlet property="dataSource" destination="VGp-Pv-Ohi" id="Kss-1Y-6ny"/>
+                                            <outlet property="delegate" destination="VGp-Pv-Ohi" id="Xb3-y6-ygX"/>
+                                        </connections>
                                     </tableView>
                                 </subviews>
                             </stackView>
@@ -361,7 +365,7 @@
             <objects>
                 <viewController storyboardIdentifier="ProjectViewController" id="McS-mT-tJC" customClass="ProjectViewController" customModule="FairTask" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="s2p-CQ-JRJ">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p9V-eq-lm3">
@@ -527,7 +531,6 @@
                                                 <buttonConfiguration key="configuration" style="plain" title="Randomise"/>
                                                 <connections>
                                                     <action selector="randomiseTasks:" destination="McS-mT-tJC" eventType="touchUpInside" id="Av4-LE-042"/>
-                                                    <segue destination="VGp-Pv-Ohi" kind="show" identifier="goToResult" id="X7K-bk-oc5"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -600,6 +603,7 @@
                         <outlet property="taskHeightConstant" destination="xl1-vH-4Z6" id="xCs-5s-lZv"/>
                         <outlet property="taskTable" destination="MEF-Pp-I2A" id="nZp-dT-CmH"/>
                         <outlet property="totalMemberLabel" destination="QFY-MX-1xH" id="PEG-lm-hht"/>
+                        <segue destination="VGp-Pv-Ohi" kind="show" identifier="goToResult" id="n9a-4T-WFs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DSV-0F-WT0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -626,6 +630,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="n9a-4T-WFs"/>
         <segue reference="3Ri-V0-RbK"/>
         <segue reference="4f6-yW-fea"/>
     </inferredMetricsTieBreakers>

@@ -20,10 +20,6 @@ class ResultController: UIViewController, UITableViewDataSource, UITableViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Set the resultTableView's dataSource and delegate to self
-        resultTableView.dataSource = self
-        resultTableView.delegate = self
-        
         // Set the successLabel's text based on the result type
         if !taskDistributions.isEmpty {
             successLabel.text = "Successfully Divided!"
