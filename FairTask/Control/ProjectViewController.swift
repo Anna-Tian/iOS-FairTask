@@ -390,6 +390,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? ResultController {
+            vc.selectedProject = selectedProject
             if let taskDistributions = sender as? [TaskDistribution], segue.identifier == "goToResult" {
                 vc.taskDistributions = taskDistributions
             } else if let shuffledMembers = sender as? [String], segue.identifier == "goToResult" {
