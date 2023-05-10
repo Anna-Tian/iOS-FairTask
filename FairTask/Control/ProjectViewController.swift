@@ -231,12 +231,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
          result = ["A - h(20)", "A - b(10)", "B - c(10)", "B - d(10)", "B - a(10)", "C - f(10)", "C - g(20)", "D - e(10)"]
          */
         
-        // Check if selected project has tasks, if no tasks, randomise the order of members
-        if selectedProject.tasks.isEmpty {
-            let shuffledMembers = selectedProject.members.shuffled()
-            performSegue(withIdentifier: "goToResult", sender: shuffledMembers)
-            return
-        }
+        
 //            // TO-DOs: pass data to result ViewController
 //            showAlert(title: "Successful", message: "Random order of members: \(shuffledMembers)", viewController: self)
 //            return
@@ -245,7 +240,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         // Check task weight with different condition
         let tasksWithWeight = selectedProject.tasks.filter { $0.taskWeight != nil }
         let totalWeight = selectedProject.tasks.reduce(0) { $0 + ($1.taskWeight ?? 0) }
-        if tasksWithWeight.isEmpty && selectedProject.members.count != selectedProject.tasks.count {
+        if tasksWithWeight.isEmpty && selectedProject.members.count != selectedProject.tasks.count && !selectedProject.tasks.isEmpty {
             showAlert(title: "Failed", message: "Each member should assign one task", viewController: self)
             return
         } else if !tasksWithWeight.isEmpty && tasksWithWeight.count != selectedProject.tasks.count {
@@ -257,20 +252,13 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         // Divide tasks based on equal percentage and random assign to members
-        let taskDistributions = tasksWithWeight.isEmpty ?
-        assignTasksToMembersWithoutWeight(project: selectedProject) :
+        let taskDistributions = selectedProject.tasks.isEmpty ? selectedProject.members.map { TaskDistribution(memberName: $0, taskName: "", assignedTaskWeight: 0) } :
+        tasksWithWeight.isEmpty ? assignTasksToMembersWithoutWeight(project: selectedProject) :
         assignTasksToMembers(project: selectedProject)
-        
-        
-//        // TO-DOs: pass data to result ViewController
-//        let taskDistributionStrings = taskDistributions.map { distribution in
-//            "\(distribution.memberName) - \(distribution.taskName)(\(distribution.assignedTaskWeight))"
-//        }
-//        showAlert(title: "Successful", message: "Task Distributions: \(taskDistributionStrings)", viewController: self)
-        
-        // Perform the segue to ResultViewController
         performSegue(withIdentifier: "goToResult", sender: taskDistributions)
     }
+        
+
     
         
     func assignTasksToMembersWithoutWeight(project: Project) -> [TaskDistribution] {
@@ -393,8 +381,6 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
             vc.selectedProject = selectedProject
             if let taskDistributions = sender as? [TaskDistribution], segue.identifier == "goToResult" {
                 vc.taskDistributions = taskDistributions
-            } else if let shuffledMembers = sender as? [String], segue.identifier == "goToResult" {
-                vc.shuffledMembers = shuffledMembers
             }
         }
     }

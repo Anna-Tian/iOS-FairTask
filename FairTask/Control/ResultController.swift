@@ -31,7 +31,6 @@ class ResultController: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     var taskDistributions: [TaskDistribution] = []
-    var shuffledMembers: [String] = []
     var historyResults: [[TaskDistribution]] = []
     var selectedProject: Project!
     
@@ -39,11 +38,7 @@ class ResultController: UIViewController, UITableViewDataSource, UITableViewDele
         super.viewDidLoad()
         
         // Set the successLabel's text based on the result type
-        if !taskDistributions.isEmpty {
-            successLabel.text = "Successfully Divided!"
-        } else if !shuffledMembers.isEmpty {
-            successLabel.text = "Successfully Shuffled!"
-        }
+        successLabel.text = taskDistributions[0].taskName.isEmpty ?"Successfully Shuffled!" : "Successfully Divided!"
     }
     
     // Retrieve result data to the tableView
@@ -64,7 +59,7 @@ class ResultController: UIViewController, UITableViewDataSource, UITableViewDele
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == resultTableView {
-            return !taskDistributions.isEmpty ? taskDistributions.count : shuffledMembers.count
+            return taskDistributions.count
         } else if tableView == historyTableView {
             return historyResults[section].count
         }
@@ -76,16 +71,11 @@ class ResultController: UIViewController, UITableViewDataSource, UITableViewDele
         if tableView == resultTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath)
 
-            if !taskDistributions.isEmpty {
-                let taskDistribution = taskDistributions[indexPath.row]
-                if taskDistribution.taskName.isEmpty {
-                    cell.textLabel?.text = taskDistribution.memberName
-                } else {
-                    cell.textLabel?.text = "\(taskDistribution.memberName) - \(taskDistribution.taskName) (\(taskDistribution.assignedTaskWeight))"
-                }
+            let taskDistribution = taskDistributions[indexPath.row]
+            if taskDistribution.taskName.isEmpty {
+                cell.textLabel?.text = taskDistribution.memberName
             } else {
-                let memberName = shuffledMembers[indexPath.row]
-                cell.textLabel?.text = memberName
+                cell.textLabel?.text = "\(taskDistribution.memberName) - \(taskDistribution.taskName) (\(taskDistribution.assignedTaskWeight))"
             }
 
             return cell
@@ -113,8 +103,7 @@ class ResultController: UIViewController, UITableViewDataSource, UITableViewDele
 
         // Check if selected project has tasks, if no tasks, randomise the order of members
         if project.tasks.isEmpty {
-            let shuffledMembers = project.members.shuffled()
-            return shuffledMembers.map { TaskDistribution(memberName: $0, taskName: "", assignedTaskWeight: 0) }
+            return project.members.shuffled().map { TaskDistribution(memberName: $0, taskName: "", assignedTaskWeight: 0) }
         }
 
         // Divide tasks based on equal percentage and random assign to members
