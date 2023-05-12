@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 let PROJECT_KEY = "project"
+let MOTIVATION_KEY = "motivation"
 
 struct Task: Codable, Hashable {
     var taskName: String
@@ -24,6 +25,10 @@ struct Project: Codable, Hashable {
 // Define the Project dictionary
 struct ProjectDict: Codable {
     var projects: [Project]
+}
+
+struct MotivationDict: Codable {
+    var quotes: [ApiData]
 }
 
 struct TaskDistribution: Codable, Hashable {

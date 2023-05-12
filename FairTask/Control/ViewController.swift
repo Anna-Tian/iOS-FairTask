@@ -10,10 +10,14 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var projectSelectionButton: UIButton!
     @IBOutlet weak var goToSelectedProjectButton: UIButton!
+    @IBOutlet weak var selectionLabel: UILabel!
+    @IBOutlet weak var motivationLabel: UILabel!
     
     var selectedProject: Project = Project(projectName: "", members: [], tasks: [])
     var selectedProjectIndex: Int = 0
     var projects: [Project] = []
+    var apiManager = ApiManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -40,8 +44,22 @@ class ViewController: UIViewController {
                  4. no existing project label
              2. the constraints between no existing project labe and create new project button is too much? maybe change it to about 20 or 30?
              */
-            projectSelectionButton.isEnabled = projects.count != 0 ? true : false
-            goToSelectedProjectButton.isEnabled = projects.count != 0 ? true : false
+            projectSelectionButton.isHidden = projects.count != 0 ? false : true
+            goToSelectedProjectButton.isHidden = projects.count != 0 ? false : true
+            selectionLabel.isHidden = projects.count != 0 ? false : true
+            
+        }
+        
+        if let motivationQuote = motivationLabel.text {
+            apiManager.fetchApi(quote: motivationQuote)
+        }
+        
+        if let motivationDictData = UserDefaults.standard.data(forKey: MOTIVATION_KEY),
+           let decodedMotivationDict = try? JSONDecoder().decode(MotivationDict.self, from: motivationDictData) {
+            motivationLabel.text = decodedMotivationDict.quotes.shuffled().first?.text
+            
+            print("test")
+            print(motivationLabel.text)
         }
     }
     
