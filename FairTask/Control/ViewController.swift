@@ -27,7 +27,9 @@ class ViewController: UIViewController {
         if let projectDictData = UserDefaults.standard.data(forKey: PROJECT_KEY),
            let decodedProjectDict = try? JSONDecoder().decode(ProjectDict.self, from: projectDictData) {
             projects = decodedProjectDict.projects
-            setProjectSelectionButton(projects: projects)
+            if projects.count != 0 {
+                setProjectSelectionButton(projects: projects)
+            }
             
             /**
              To-Dos:
