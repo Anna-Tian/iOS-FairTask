@@ -30,7 +30,6 @@ struct ApiManager {
                     return
                 }
                 if let safeData = data {
-                    let dataString = String(data: safeData, encoding: .utf8)
                     self.parseJSON(apiData: safeData)
                 }
             }

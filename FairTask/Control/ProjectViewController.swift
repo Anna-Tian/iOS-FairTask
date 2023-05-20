@@ -72,12 +72,12 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBAction func addTask(_ sender: Any) {
         showPopUpWindow(
-            title: "Edit Task",
+            title: "Add Task",
             placeholders: ["Enter task name*", "Enter task weight"],
             initialValues: ["", ""],
             requiredFields: [0],
             viewController: self,
-            keyboardType: [.default, .numberPad]
+            keyboardType: [.default, .numberPad] // use numeric keyboard to unsure that users can only fill as integer
         ) {(values) in
             // if value is not empty, append task name and task weight to selectedProject
             if !values[0].isEmpty {
@@ -146,7 +146,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
                 initialValues: [self.selectedProject.tasks[indexPath.row].taskName, taskWeight != nil ? "\(taskWeight!)" : ""],
                 requiredFields: [0],
                 viewController: self,
-                keyboardType: [.default, .numberPad]
+                keyboardType: [.default, .numberPad] // use numeric keyboard to unsure that users can only fill as integer
             ) {(values) in
                 self.selectedProject.tasks[indexPath.row].taskName = values[0]
                 self.selectedProject.tasks[indexPath.row].taskWeight = Int(values[1]) ?? nil
@@ -231,13 +231,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
          result = ["A - h(20)", "A - b(10)", "B - c(10)", "B - d(10)", "B - a(10)", "C - f(10)", "C - g(20)", "D - e(10)"]
          */
         
-        
-//            // TO-DOs: pass data to result ViewController
-//            showAlert(title: "Successful", message: "Random order of members: \(shuffledMembers)", viewController: self)
-//            return
-//        }
-        
-        // Check task weight with different condition
+        // Check task weight with different condition to prevent errors
         let tasksWithWeight = selectedProject.tasks.filter { $0.taskWeight != nil }
         let totalWeight = selectedProject.tasks.reduce(0) { $0 + ($1.taskWeight ?? 0) }
         if tasksWithWeight.isEmpty && selectedProject.members.count != selectedProject.tasks.count && !selectedProject.tasks.isEmpty {
@@ -395,7 +389,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
                 // Save the encoded data to UserDefaults
                 UserDefaults.standard.set(encoded, forKey: PROJECT_KEY)
             }
-            let vc = self.storyboard?.instantiateViewController(identifier: "ViewController") as! ViewController
+            let vc = self.storyboard?.instantiateViewController(identifier: "HomeViewController") as! HomeViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }))
         self.present(alertController, animated: true, completion: nil)

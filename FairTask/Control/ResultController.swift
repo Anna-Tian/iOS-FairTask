@@ -19,15 +19,7 @@ class ResultController: UIViewController, UITableViewDataSource, UITableViewDele
         // Store the current task distribution in the historyResults array
         historyResults.append(taskDistributions)
         
-        // Perform the randomisation process again and store the results in a new array
-        let newTaskDistributions = randomiseTasksAgain()
-
-        // Update the main result table view
-        taskDistributions = newTaskDistributions
-        resultTableView.reloadData()
-        
-        // Reload the history table view
-        historyTableView.reloadData()
+        reloadTableData()
     }
     
     var taskDistributions: [TaskDistribution] = []
@@ -39,6 +31,17 @@ class ResultController: UIViewController, UITableViewDataSource, UITableViewDele
         
         // Set the successLabel's text based on the result type
         successLabel.text = taskDistributions[0].taskName.isEmpty ?"Successfully Shuffled!" : "Successfully Divided!"
+        reloadTableData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     // Retrieve result data to the tableView
@@ -74,6 +77,8 @@ class ResultController: UIViewController, UITableViewDataSource, UITableViewDele
             let taskDistribution = taskDistributions[indexPath.row]
             if taskDistribution.taskName.isEmpty {
                 cell.textLabel?.text = taskDistribution.memberName
+            } else if taskDistribution.assignedTaskWeight == 0 {
+                cell.textLabel?.text = "\(taskDistribution.memberName) - \(taskDistribution.taskName)"
             } else {
                 cell.textLabel?.text = "\(taskDistribution.memberName) - \(taskDistribution.taskName) (\(taskDistribution.assignedTaskWeight))"
             }
@@ -85,6 +90,8 @@ class ResultController: UIViewController, UITableViewDataSource, UITableViewDele
             let taskDistribution = historyResults[indexPath.section][indexPath.row]
             if taskDistribution.taskName.isEmpty {
                 cell.textLabel?.text = taskDistribution.memberName
+            } else if taskDistribution.assignedTaskWeight == 0 {
+                cell.textLabel?.text = "\(taskDistribution.memberName) - \(taskDistribution.taskName)"
             } else {
                 cell.textLabel?.text = "\(taskDistribution.memberName) - \(taskDistribution.taskName) (\(taskDistribution.assignedTaskWeight))"
             }
@@ -93,6 +100,18 @@ class ResultController: UIViewController, UITableViewDataSource, UITableViewDele
         }
 
         return UITableViewCell()
+    }
+    
+    func reloadTableData() {
+        // Perform the randomisation process again and store the results in a new array
+        let newTaskDistributions = randomiseTasksAgain()
+
+        // Update the main result table view
+        taskDistributions = newTaskDistributions
+        resultTableView.reloadData()
+        
+        // Reload the history table view
+        historyTableView.reloadData()
     }
 
     

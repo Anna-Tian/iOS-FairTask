@@ -1,12 +1,12 @@
 //
-//  ViewController.swift
+//  HomeViewController.swift
 //  FairTask
 //
 //  Created by Na Tian on 25/4/2023.
 //
 import UIKit
 
-class ViewController: UIViewController {
+class HomeViewController: UIViewController {
 
     @IBOutlet weak var projectSelectionButton: UIButton!
     @IBOutlet weak var goToSelectedProjectButton: UIButton!
@@ -21,34 +21,32 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
         // Reload data or update the view here
+        setupData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    func setupData() {
         if let projectDictData = UserDefaults.standard.data(forKey: PROJECT_KEY),
            let decodedProjectDict = try? JSONDecoder().decode(ProjectDict.self, from: projectDictData) {
             projects = decodedProjectDict.projects
             if projects.count != 0 {
                 setProjectSelectionButton(projects: projects)
             }
-            
-            /**
-             To-Dos:
-             1. change isEnabled to .isHidden in here:
-                 1. select from existing projects label
-                 2. project selection button
-                 3. go to selected project button
-                 4. no existing project label
-             2. the constraints between no existing project labe and create new project button is too much? maybe change it to about 20 or 30?
-             */
-            projectSelectionButton.isHidden = projects.count != 0 ? false : true
-            goToSelectedProjectButton.isHidden = projects.count != 0 ? false : true
-            selectionLabel.isHidden = projects.count != 0 ? false : true
-            
         }
+        
+        projectSelectionButton.isHidden = projects.count != 0 ? false : true
+        goToSelectedProjectButton.isHidden = projects.count != 0 ? false : true
+        selectionLabel.isHidden = projects.count != 0 ? false : true
         
         if let motivationQuote = motivationLabel.text {
             apiManager.fetchApi(quote: motivationQuote)
@@ -57,15 +55,9 @@ class ViewController: UIViewController {
         if let motivationDictData = UserDefaults.standard.data(forKey: MOTIVATION_KEY),
            let decodedMotivationDict = try? JSONDecoder().decode(MotivationDict.self, from: motivationDictData) {
             motivationLabel.text = decodedMotivationDict.quotes.shuffled().first?.text
-            
-            print("test")
-            print(motivationLabel.text)
+        } else {
+            motivationLabel.text = "Let us always meet each other with smile, for the smile is the beginning of love."
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     func setProjectSelectionButton(projects: [Project]){
